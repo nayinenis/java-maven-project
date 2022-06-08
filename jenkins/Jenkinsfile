@@ -7,11 +7,23 @@ pipeline {
     }
     stages {
         stage('Build') {
+            agent { 
+                docker {
+                    image 'maven:3.5.4-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
+            agent { 
+                docker {
+                    image 'maven:3.5.4-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
             steps {
                 sh 'mvn test'
             }
@@ -21,10 +33,15 @@ pipeline {
                 }
             }
         }
-        /** stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
+        stage('sonar') {
+            agent { 
+                docker {
+                    image 'sonar-scanner:latest'
+                    }
             }
-        } **/
+            steps {
+                sh 'sonar-scanner -Dsonar.login=45bedaabeed2cf14ba8cb5926b2a05a1c5511e20'
+            }
+        } 
     }
 }
