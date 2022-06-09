@@ -41,5 +41,21 @@ pipeline {
                 sh 'sonar-scanner -Dsonar.login=45bedaabeed2cf14ba8cb5926b2a05a1c5511e20'
             }
         } 
+        stage('Docker Build') {
+            agent { 
+                docker {
+                    image 'docker'
+                    }
+            }
+            steps {
+                 sh 'ls -lrt'
+                 sh ''' 
+                    echo $workspace
+                    ls -lrt
+                    docker build -t test .
+                    '''
+
+                }
+        } 
     }
 }
