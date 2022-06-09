@@ -9,6 +9,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'ls -lrt'
                 sh 'mvn -B -DskipTests clean package'
             }
         }
@@ -20,6 +21,7 @@ pipeline {
                 }
             }
             steps {
+                 sh 'ls -lrt'
                 sh 'mvn test'
             }
             post {
@@ -35,6 +37,7 @@ pipeline {
                     }
             }
             steps {
+                 sh 'ls -lrt'
                 sh 'sonar-scanner -Dsonar.login=45bedaabeed2cf14ba8cb5926b2a05a1c5511e20'
             }
         } 
